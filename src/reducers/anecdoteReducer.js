@@ -13,13 +13,24 @@ const asObject = (anecdote) => {
   return {
     content: anecdote,
     id: getId(),
-    votes: 0
+    votes: 0,
+    downvotes: 0,
   }
 }
-const vote = (id) => {
+export const voteannecdotes = (id) => {
   return {
     type: 'VOTE',
     data: { id }
+  }
+}
+export const createann = (content) =>{
+  return {
+    type:'NEW',
+    payload : {
+      content,
+      id : getId(),
+      votes : 0
+    }
   }
 }
 const initialState = anecdotesAtStart.map(asObject)
@@ -27,7 +38,16 @@ const initialState = anecdotesAtStart.map(asObject)
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
- 
+
+ if(action.type === 'VOTE'){
+   const id = action.data.id
+   const annecdotes = state.find(n => n.id === id)
+   const changedannedotes = { ...annecdotes ,votes :annecdotes.votes+1}
+ return state.map(annecdote => annecdote.id !== id ? annecdote : changedannedotes)
+ }
+ if (action.type === "NEW"){
+  return [...state,action.payload]
+ }
   return state
 }
 
