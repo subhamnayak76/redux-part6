@@ -2,7 +2,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import { createann, voteannecdotes } from './reducers/anecdoteReducer'
 // import {reducer } from './reducers/anecdoteReducer'
 const App = () => {
-  const anecdotes = useSelector(state => state)
+  const anecdotes = useSelector(state => 
+    [...state].sort((a, b) => b.votes - a.votes)
+  )
   const dispatch = useDispatch()
 
   const vote = (id) => {
@@ -15,7 +17,9 @@ const App = () => {
     event.target.ann.value = ''
     dispatch(createann(content))
   } 
-
+ const sorted = () =>{
+    anecdotes.map()
+ }
   return (
     <div>
       <h2>Anecdotes</h2>
