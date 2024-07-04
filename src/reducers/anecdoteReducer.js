@@ -16,13 +16,18 @@ const asObject = (anecdote) => {
     votes: 0
   }
 }
-
+const vote = (id) => {
+  return {
+    type: 'VOTE',
+    data: { id }
+  }
+}
 const initialState = anecdotesAtStart.map(asObject)
 
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
-
+ 
   return state
 }
 
