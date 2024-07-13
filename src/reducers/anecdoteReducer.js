@@ -1,3 +1,5 @@
+// anecdoteReducer.js
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -14,41 +16,57 @@ const asObject = (anecdote) => {
     content: anecdote,
     id: getId(),
     votes: 0,
-    downvotes: 0,
   }
 }
-export const voteannecdotes = (id) => {
+
+const initialState = anecdotesAtStart.map(asObject)
+
+export const voteAnnecdote = (id) => {
   return {
     type: 'VOTE',
     data: { id }
   }
 }
-export const createann = (content) =>{
+
+export const createAnn = (content) => {
   return {
-    type:'NEW',
-    payload : {
+    type: 'NEW',
+    payload: {
       content,
-      id : getId(),
-      votes : 0
+      id: getId(),
+      votes: 0
     }
   }
 }
-const initialState = anecdotesAtStart.map(asObject)
 
-const reducer = (state = initialState, action) => {
+export const anecdoteReducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
-
- if(action.type === 'VOTE'){
-   const id = action.data.id
-   const annecdotes = state.find(n => n.id === id)
-   const changedannedotes = { ...annecdotes ,votes :annecdotes.votes+1}
- return state.map(annecdote => annecdote.id !== id ? annecdote : changedannedotes)
- }
- if (action.type === "NEW"){
-  return [...state,action.payload]
- }
-  return state
+  switch (action.type) {
+    case 'VOTE':
+      const id = action.data.id
+      const anecdoteToChange = state.find(n => n.id === id)
+      const changedAnecdote = { ...anecdoteToChange, votes: anecdoteToChange.votes + 1 }
+      return state.map(anecdote => anecdote.id !== id ? anecdote : changedAnecdote)
+    case 'NEW':
+      return [...state, action.payload]
+    default:
+      return state
+  }
 }
 
-export default reducer
+export const filterReducer = (state = 'ALL', action) => {
+  switch (action.type) {
+    case 'SET_FILTER':
+      return action.filter
+    default:
+      return state
+  }
+}
+
+export const setFilter = (filter) => {
+  return {
+    type: 'SET_FILTER',
+    filter
+  }
+}
