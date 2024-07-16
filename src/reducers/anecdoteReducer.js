@@ -38,7 +38,8 @@ const anecdoteSlice = createSlice({
         id: getId(),
         votes: 0
       })
-    }
+    },
+    
   }
 })
 
@@ -57,3 +58,4 @@ const filterSlice = createSlice({
 
 export const { setFilter } = filterSlice.actions
 export const filterReducer = filterSlice.reducer
+
